@@ -209,6 +209,7 @@ def setup_conversation_with_model(retriever, llm):
 def converse(query: str, memory: ConversationBufferMemory, chain: Any):
     response = chain.invoke(query)
     memory.save_context({"input": query}, {"output": response})
+    return response
 
 
 # --- Streamlit UI ---
