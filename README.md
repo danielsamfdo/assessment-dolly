@@ -57,3 +57,18 @@ export PINECONE_API_KEY="api_key"
 1. Data Process and Indexing
 2. Store in DB [vector -> text chunks]
 3. Identify closest pairs to the query and pass that as context to the prompt.
+
+
+
+# Errors:
+
+### You are trying to access a gated repo.
+Make sure to have access to it at 
+https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.1.
+
+
+# Ideal scenario:
+
+* https://python.langchain.com/docs/integrations/chat/litellm/ Simplifies benchmarking/evaluation against various model providers [OpenAI, Anthropic, Azure, Replicate, OpenRouter, Hugging Face, Together AI, or Cohere account]
+* PineCone vector embeddings as it does ANN.
+
