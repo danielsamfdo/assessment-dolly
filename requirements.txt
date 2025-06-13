@@ -1,0 +1,32 @@
+# Core dependencies
+streamlit>=1.35.0
+pypdf>=3.17.4
+python-dotenv>=1.0.1
+
+# LangChain and integrations
+langchain>=0.1.17
+langchain-openai>=0.1.0
+langchain-pinecone>=0.1.0
+langchain-community
+sentence-transformers
+langchain-huggingface
+# Pinecone SDK v2
+pinecone>=6.0.0
+# OpenAI client (required by langchain-openai)
+openai>=1.30.1
+
+python-dotenv  # for managing .env configs
+watchdog
+
+# langchain
+# streamlit
+# faiss-cpu
+# pydf
+# langchain-openai
+# langchain-anthropic
+# openai
+# langchain-text-splitters
+# pinecone-client >=3.0.0
+# langchain_openai
+# langchain-community
+# langchain_pinecone
