@@ -56,7 +56,7 @@ def load_dolly_documents():
     base_path = "/Users/tn_family/Documents/GitHub/assessment-dolly/data"
     doc_list = []
     idx = 1
-    for file_name in os.listdir(base_path)[1:2]:
+    for file_name in os.listdir(base_path):
         fpath = os.path.join(base_path, file_name)
         if file_name.endswith(".txt"):
             try:
