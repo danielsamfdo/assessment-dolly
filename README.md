@@ -37,6 +37,11 @@ export OPENAI_API_KEY="your_openai_api_key"
 
 export PINECONE_API_KEY="api_key"
 
+
+# To Run the APP
+`streamlit run app.py --logger.level=error`
+
+
 # Documentation:
 
 * https://platform.openai.com/docs/guides/batch Batch API for reducing costs for content embeddings

@@ -15,6 +15,9 @@ pinecone>=6.0.0
 # OpenAI client (required by langchain-openai)
 openai>=1.30.1
 
+transformers
+accelerate
+
 python-dotenv  # for managing .env configs
 watchdog
 

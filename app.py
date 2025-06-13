@@ -17,6 +17,11 @@ from langchain_openai import OpenAIEmbeddings
 from langchain_pinecone import PineconeVectorStore
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from typing import Any
+
+from langchain.llms import HuggingFacePipeline
+from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
+import torch
+
 import os
 import dotenv
 
@@ -49,6 +54,27 @@ OPENAI_API_KEY = get_openai_api_key()
 embedding_model = HuggingFaceEmbeddings(
     model_name="sentence-transformers/all-MiniLM-L6-v2"
 )
+
+def load_local_llm():
+    model_name = "mistralai/Mistral-7B-Instruct-v0.1"  # or any other causal LM
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    model = AutoModelForCausalLM.from_pretrained(
+        model_name,
+        torch_dtype=torch.float16,
+        device_map="auto"
+    )
+
+    pipe = pipeline(
+        "text-generation",
+        model=model,
+        tokenizer=tokenizer,
+        max_new_tokens=512,
+        temperature=0.7,
+        top_p=0.95,
+        repetition_penalty=1.1
+    )
+
+    return HuggingFacePipeline(pipeline=pipe)
 
 
 # --- Load Dolly Docs ---
@@ -148,9 +174,9 @@ def setup_conversational_retrieval_chain_with_openAI(vectorstore: PineconeVector
     qa_chain = ConversationalRetrievalChain.from_llm(llm, retriever=vectorstore.as_retriever(), memory=memory)
     return qa_chain
 
-def setup_conversation_with_openAI(retriever):
+def setup_conversation_with_model(retriever, llm):
     memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
-    llm = ChatOpenAI(model="o4-mini", openai_api_key=OPENAI_API_KEY)
+    
 
     # Prompt
     prompt = PromptTemplate.from_template("""
@@ -195,7 +221,8 @@ def main():
         with st.spinner("Loading Dolly's memories..."):
             docs = load_dolly_documents()
             st.session_state.vectordb = build_vectorstore_with_MiniLM(docs)
-            chain, memory = setup_conversation_with_openAI(st.session_state.vectordb.as_retriever())
+            # chain, memory = setup_conversation_with_model(st.session_state.vectordb.as_retriever(), llm = ChatOpenAI(model="o4-mini", openai_api_key=OPENAI_API_KEY))
+            chain, memory = setup_conversation_with_model(st.session_state.vectordb.as_retriever(), load_local_llm())
             st.session_state.mem = memory 
             st.session_state.chain = chain
 
